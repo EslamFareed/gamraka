@@ -22,18 +22,18 @@ class _StepperScreenState extends State<StepperScreen> {
       name: 'Documents',
       body:
           'Leave paperwork behind and\neffortlessly upload your document\nthrough Gamraka!',
-      icon: Icons.file_copy_sharp,
+      icon: "assets/icons/doc_icon.png",
     ),
     StepperModel(
       name: 'Calculator',
       body: 'Get instant estimates of your\ncustoms fees using our calculator.',
-      icon: Icons.calculate,
+      icon: "assets/icons/calc_icon.png",
     ),
     StepperModel(
       name: 'Delivery',
       body:
           'Stay updated on yyour shiment\'s\nprogress with our real-time delivery\nand tracking option.',
-      icon: Icons.local_shipping,
+      icon: "assets/icons/van_icon.png",
     ),
   ];
 
@@ -132,7 +132,7 @@ class _StepperScreenState extends State<StepperScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SizedBox(height: 40),
-                                Icon(step.icon, size: 160),
+                                Image.asset(step.icon, width: 200, height: 200),
                                 SizedBox(height: 80),
                                 Text(
                                   step.body,
@@ -194,7 +194,7 @@ class _StepperScreenState extends State<StepperScreen> {
 class StepperModel {
   String name;
   String body;
-  IconData icon;
+  String icon;
 
   StepperModel({required this.name, required this.body, required this.icon});
 }
