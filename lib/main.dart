@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gamraka/firebase_options.dart';
+import 'package:gamraka/screens/welcome/splash_screen.dart';
 
 import 'core/cache_helper.dart';
 
@@ -18,6 +19,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false);
+    return MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen());
   }
 }
