@@ -53,11 +53,10 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCDgb3H96U5UR-E2xNwFh2joRXv7O4TsB8',
-    appId: '1:983377843853:android:f40119defd8e14eb78b4c4',
-    messagingSenderId: '983377843853',
-    projectId: 'education-edaf6',
-    databaseURL: 'https://education-edaf6.firebaseio.com',
-    storageBucket: 'education-edaf6.appspot.com',
+    apiKey: 'AIzaSyC5wi8LPu4tIEYAZJgwFEQb65nW9MsQ-Ok',
+    appId: '1:520937292678:android:fbda6159be1bcb6676e207',
+    messagingSenderId: '520937292678',
+    projectId: 'fibrohospital',
+    storageBucket: 'fibrohospital.appspot.com',
   );
 }

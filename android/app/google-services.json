@@ -1,34 +1,62 @@
 {
   "project_info": {
-    "project_number": "983377843853",
-    "firebase_url": "https://education-edaf6.firebaseio.com",
-    "project_id": "education-edaf6",
-    "storage_bucket": "education-edaf6.appspot.com"
+    "project_number": "520937292678",
+    "project_id": "fibrohospital",
+    "storage_bucket": "fibrohospital.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:983377843853:android:f40119defd8e14eb78b4c4",
+        "mobilesdk_app_id": "1:520937292678:android:fbda6159be1bcb6676e207",
         "android_client_info": {
           "package_name": "com.example.gamraka"
         }
       },
       "oauth_client": [
         {
-          "client_id": "983377843853-2j3o5mglek5sefhmmnnjk2msi6pvv3bq.apps.googleusercontent.com",
+          "client_id": "520937292678-lpgcfdonct67ok35mccia1k4s26re2bd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCDgb3H96U5UR-E2xNwFh2joRXv7O4TsB8"
+          "current_key": "AIzaSyC5wi8LPu4tIEYAZJgwFEQb65nW9MsQ-Ok"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "983377843853-2j3o5mglek5sefhmmnnjk2msi6pvv3bq.apps.googleusercontent.com",
+              "client_id": "520937292678-lpgcfdonct67ok35mccia1k4s26re2bd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520937292678:android:724a30940e29352276e207",
+        "android_client_info": {
+          "package_name": "com.example.gamraka_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520937292678-lpgcfdonct67ok35mccia1k4s26re2bd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5wi8LPu4tIEYAZJgwFEQb65nW9MsQ-Ok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "520937292678-lpgcfdonct67ok35mccia1k4s26re2bd.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
