@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamraka/firebase_options.dart';
 import 'package:gamraka/screens/auth/login/cubit/login_cubit.dart';
 import 'package:gamraka/screens/auth/sign_up/cubit/sign_up_cubit.dart';
+import 'package:gamraka/screens/home/cubit/home_cubit.dart';
+import 'package:gamraka/screens/navbar/cubit/nav_bar_cubit.dart';
 import 'package:gamraka/screens/welcome/splash_screen.dart';
 
 import 'core/cache_helper.dart';
@@ -26,6 +28,8 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => LoginCubit()),
         BlocProvider(create: (context) => SignUpCubit()),
+        BlocProvider(create: (context) => NavBarCubit()),
+        BlocProvider(create: (context) => HomeCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gamraka/core/cache_helper.dart';
 import 'package:meta/meta.dart';
 
 part 'login_state.dart';
@@ -14,13 +15,11 @@ class LoginCubit extends Cubit<LoginState> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Map<String, dynamic> userData = {};
-
-  void login({required String email, required String password}) async {
+  void login({required String phone, required String password}) async {
     emit(LoginLoadingState());
     try {
       var dataAuth = await auth.signInWithEmailAndPassword(
-        email: email,
+        email: "$phone@gmail.com",
         password: password,
       );
 
@@ -28,8 +27,13 @@ class LoginCubit extends Cubit<LoginState> {
         var data =
             await firestore.collection("users").doc(dataAuth.user?.uid).get();
         if (data.data() != null) {
-          userData = data.data() ?? {};
-          userData['uid'] = dataAuth.user?.uid;
+          CacheHelper.login(
+            phone: phone,
+            name: data.data()!["name"],
+            idNumber: data.data()!["idNumber"],
+            id: dataAuth.user!.uid,
+            image: data.data()!["image"],
+          );
           emit(LoginSuccessState());
         } else {
           emit(LoginErrorState());

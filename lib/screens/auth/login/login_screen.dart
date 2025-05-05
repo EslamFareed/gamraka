@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamraka/core/app_functions.dart';
+import 'package:gamraka/screens/navbar/navbar_screen.dart';
 
 import '../../../core/app_colors.dart';
 import '../../../core/app_text_field.dart';
@@ -10,7 +11,7 @@ import 'cubit/login_cubit.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  final nationalIDController = TextEditingController();
+  final phoneController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -27,19 +28,17 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: context.screenHeight * .05),
                 Image.asset("assets/icons/icon.png", height: 200, width: 200),
 
-                //! ------------------- National ID ------------------!
+                //! ------------------- Phone ------------------!
                 AppTextField(
-                  controller: nationalIDController,
-                  hint: "Your ID",
-                  label: "National ID",
+                  controller: phoneController,
+                  hint: "Phone",
+                  label: "Phone",
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "National ID is required";
+                      return "Phone is required";
                     }
-                    if (value.length != 14) {
-                      return "Enter a valid National ID";
-                    }
+
                     return null;
                   },
                 ),
@@ -69,7 +68,7 @@ class LoginScreen extends StatelessWidget {
                   listener: (context, state) {
                     if (state is LoginSuccessState) {
                       context.showSuccessSnack("Login successful");
-                      // context.goOffAll(HomeScreen());
+                      context.goOffAll(NavbarScreen());
                     } else if (state is LoginErrorState) {
                       context.showErrorSnack("Login failed");
                     }
@@ -80,10 +79,10 @@ class LoginScreen extends StatelessWidget {
                         : MaterialButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              // LoginCubit.get(context).login(
-                              //   email: emailController.text,
-                              //   password: passwordController.text,
-                              // );
+                              LoginCubit.get(context).login(
+                                phone: phoneController.text,
+                                password: passwordController.text,
+                              );
                             }
                           },
                           minWidth: context.screenWidth,
