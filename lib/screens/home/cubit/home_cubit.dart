@@ -17,6 +17,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   List<SliderModel> sliders = [];
   List<CategoryModel> categories = [];
+  List<CategoryModel> allCategories = [];
 
   void getSliders() async {
     emit(LoadingHomeState());
@@ -27,14 +28,25 @@ class HomeCubit extends Cubit<HomeState> {
 
       var categoriesData = await firestore.collection("categories").get();
 
-      categories =
+      allCategories =
           categoriesData.docs
               .map((e) => CategoryModel.fromFirebase(e))
               .toList();
+
+      categories = allCategories;
 
       emit(SuccessHomeState());
     } catch (e) {
       emit(ErrorHomeState());
     }
+  }
+
+  void searchCategory(String search) {
+    emit(StartSearchHomeState());
+    categories =
+        allCategories
+            .where((e) => e.name!.toLowerCase().contains(search.toLowerCase()))
+            .toList();
+    emit(EndSearchHomeState());
   }
 }

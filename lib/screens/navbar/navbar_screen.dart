@@ -18,68 +18,71 @@ class NavbarScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NavBarCubit, int>(
-      builder: (context, state) {
-        return Scaffold(
-          body: screens[state],
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: state,
-            onTap: (value) {
-              NavBarCubit.get(context).changeScreen(value);
-            },
-            unselectedItemColor: Colors.grey.shade400,
-            selectedItemColor: Colors.black,
-            backgroundColor: Colors.white,
-            items: [
-              BottomNavigationBarItem(
-                icon: Image.asset(
-                  "assets/icons/home_nav.png",
-                  color: Colors.grey.shade400,
+    return BlocProvider(
+      create: (context) => NavBarCubit(),
+      child: BlocBuilder<NavBarCubit, int>(
+        builder: (context, state) {
+          return Scaffold(
+            body: screens[state],
+            bottomNavigationBar: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              currentIndex: state,
+              onTap: (value) {
+                NavBarCubit.get(context).changeScreen(value);
+              },
+              unselectedItemColor: Colors.grey.shade400,
+              selectedItemColor: Colors.black,
+              backgroundColor: Colors.white,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Image.asset(
+                    "assets/icons/home_nav.png",
+                    color: Colors.grey.shade400,
+                  ),
+                  activeIcon: Image.asset(
+                    "assets/icons/home_nav.png",
+                    color: Colors.black,
+                  ),
+                  label: "Home",
                 ),
-                activeIcon: Image.asset(
-                  "assets/icons/home_nav.png",
-                  color: Colors.black,
+                BottomNavigationBarItem(
+                  icon: Image.asset(
+                    "assets/icons/calculator_nav.png",
+                    color: Colors.grey.shade400,
+                  ),
+                  activeIcon: Image.asset(
+                    "assets/icons/calculator_nav.png",
+                    color: Colors.black,
+                  ),
+                  label: "Calculator",
                 ),
-                label: "Home",
-              ),
-              BottomNavigationBarItem(
-                icon: Image.asset(
-                  "assets/icons/calculator_nav.png",
-                  color: Colors.grey.shade400,
+                BottomNavigationBarItem(
+                  icon: Image.asset(
+                    "assets/icons/orrders_nav.png",
+                    color: Colors.grey.shade400,
+                  ),
+                  activeIcon: Image.asset(
+                    "assets/icons/orrders_nav.png",
+                    color: Colors.black,
+                  ),
+                  label: "Orders",
                 ),
-                activeIcon: Image.asset(
-                  "assets/icons/calculator_nav.png",
-                  color: Colors.black,
+                BottomNavigationBarItem(
+                  icon: Image.asset(
+                    "assets/icons/profile_nav.png",
+                    color: Colors.grey.shade400,
+                  ),
+                  activeIcon: Image.asset(
+                    "assets/icons/profile_nav.png",
+                    color: Colors.black,
+                  ),
+                  label: "Profile",
                 ),
-                label: "Calculator",
-              ),
-              BottomNavigationBarItem(
-                icon: Image.asset(
-                  "assets/icons/orrders_nav.png",
-                  color: Colors.grey.shade400,
-                ),
-                activeIcon: Image.asset(
-                  "assets/icons/orrders_nav.png",
-                  color: Colors.black,
-                ),
-                label: "Orders",
-              ),
-              BottomNavigationBarItem(
-                icon: Image.asset(
-                  "assets/icons/profile_nav.png",
-                  color: Colors.grey.shade400,
-                ),
-                activeIcon: Image.asset(
-                  "assets/icons/profile_nav.png",
-                  color: Colors.black,
-                ),
-                label: "Profile",
-              ),
-            ],
-          ),
-        );
-      },
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

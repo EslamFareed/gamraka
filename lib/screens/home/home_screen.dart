@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // HomeCubit.get(context).getSliders();
+    HomeCubit.get(context).getSliders();
     return Scaffold(
       body: SingleChildScrollView(
         child: BlocBuilder<HomeCubit, HomeState>(
@@ -185,12 +185,14 @@ class HomeScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.network(
-                            HomeCubit.get(context).categories[index].icon ?? "",
+                            HomeCubit.get(context).allCategories[index].icon ??
+                                "",
                             width: 50,
                             height: 50,
                           ),
                           Text(
-                            HomeCubit.get(context).categories[index].name ?? "",
+                            HomeCubit.get(context).allCategories[index].name ??
+                                "",
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -200,7 +202,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     );
                   },
-                  itemCount: HomeCubit.get(context).categories.length,
+                  itemCount: HomeCubit.get(context).allCategories.length,
                 ),
               ],
             );
