@@ -14,19 +14,14 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HomeCubit.get(context).getSliders();
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: BlocBuilder<HomeCubit, HomeState>(
-          builder: (context, state) {
-            if (state is LoadingHomeState) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Center(child: CircularProgressIndicator())],
-                ),
-              );
-            }
-            return Column(
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        if (state is LoadingHomeState) {
+          return Center(child: CircularProgressIndicator());
+        }
+        return Scaffold(
+          body: SingleChildScrollView(
+            child: Column(
               children: [
                 //! Welcome
                 SizedBox(height: context.height * .05),
@@ -70,6 +65,36 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+
+                //! Track search
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    spacing: 16,
+                    children: [
+                      Expanded(
+                        child: SearchBar(
+                          backgroundColor: WidgetStatePropertyAll(Colors.white),
+                          hintText: "Enter order number",
+                          leading: Icon(Icons.search, color: Colors.grey),
+                        ),
+                      ),
+                      MaterialButton(
+                        onPressed: () {},
+                        height: 50,
+                        color: AppColors.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          "Track it",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: context.height * .02),
                 //! Ads
                 CarouselSlider.builder(
                   itemCount: HomeCubit.get(context).sliders.length,
@@ -118,40 +143,11 @@ class HomeScreen extends StatelessWidget {
                     height: 200,
                     autoPlay: true,
                     enlargeCenterPage: true,
-                    viewportFraction: .9,
+                    viewportFraction: .95,
                   ),
                 ),
 
-                SizedBox(height: context.height * .05),
-
-                //! Track search
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Column(
-                    spacing: 16,
-                    children: [
-                      SearchBar(
-                        backgroundColor: WidgetStatePropertyAll(Colors.white),
-                        hintText: "Enter order number",
-                        leading: Icon(Icons.search, color: Colors.grey),
-                      ),
-                      MaterialButton(
-                        onPressed: () {},
-                        minWidth: context.screenWidth * .6,
-                        height: 50,
-                        color: AppColors.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          "Track it",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: context.height * .05),
+                SizedBox(height: context.height * .02),
 
                 //! Categories
                 Padding(
@@ -205,10 +201,10 @@ class HomeScreen extends StatelessWidget {
                   itemCount: HomeCubit.get(context).allCategories.length,
                 ),
               ],
-            );
-          },
-        ),
-      ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

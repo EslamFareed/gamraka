@@ -4,6 +4,7 @@ import 'package:gamraka/core/app_functions.dart';
 import 'package:gamraka/core/cache_helper.dart';
 import 'package:gamraka/screens/ask/asks_screen.dart';
 import 'package:gamraka/screens/auth/login/login_screen.dart';
+import 'package:gamraka/screens/payment_methods/payment_methods_screen.dart';
 
 import 'about_us_dialog.dart';
 import 'contact_us_dialog.dart';
@@ -82,6 +83,34 @@ class ProfileScreen extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
+                  context.goToPage(PaymentMethodsScreen());
+                },
+                child: Container(
+                  width: context.width,
+                  padding: EdgeInsets.all(15),
+                  margin: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    spacing: 10,
+                    children: [
+                      Icon(Icons.payment, color: Colors.grey),
+                      Text("Payment Methods"),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.grey,
+                        size: 15,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              InkWell(
+                onTap: () {
                   context.goToPage(AsksScreen());
                 },
                 child: Container(
@@ -97,6 +126,12 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       Icon(Icons.question_mark, color: Colors.grey),
                       Text("Have A Question??"),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.grey,
+                        size: 15,
+                      ),
                     ],
                   ),
                 ),
@@ -118,6 +153,12 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       Icon(Icons.info, color: Colors.grey),
                       Text("About our Company"),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.grey,
+                        size: 15,
+                      ),
                     ],
                   ),
                 ),
@@ -139,6 +180,12 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       Icon(Icons.contact_support, color: Colors.grey),
                       Text("Contact Info"),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.grey,
+                        size: 15,
+                      ),
                     ],
                   ),
                 ),
@@ -184,6 +231,12 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       Icon(Icons.logout, color: Colors.grey),
                       Text("Logout"),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.grey,
+                        size: 15,
+                      ),
                     ],
                   ),
                 ),

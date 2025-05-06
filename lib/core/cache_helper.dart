@@ -1,3 +1,4 @@
+import 'package:gamraka/screens/payment_methods/models/payment_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheHelper {
@@ -29,4 +30,31 @@ class CacheHelper {
   static String getIdNumber() => sharedPreferences.getString("idNumber") ?? "";
   static String getId() => sharedPreferences.getString("id") ?? "";
   static String getImage() => sharedPreferences.getString("image") ?? "";
+
+  static Future<void> addNewPaymentMethod(PaymentModel method) async {
+    List<PaymentModel> methods = getPaymentMethods();
+    methods.add(method);
+    await savePaymentMethods(methods);
+  }
+
+  static Future<void> removePaymentMethod(PaymentModel method) async {
+    List<PaymentModel> methods = getPaymentMethods();
+    methods.remove(method);
+    await savePaymentMethods(methods);
+  }
+
+  static Future<void> savePaymentMethods(List<PaymentModel> methods) async {
+    await sharedPreferences.setStringList(
+      "methods",
+      methods.map((e) => e.toJson()).toList(),
+    );
+  }
+
+  static List<PaymentModel> getPaymentMethods() {
+    return sharedPreferences
+            .getStringList("methods")
+            ?.map((e) => PaymentModel.fromJson(e))
+            .toList() ??
+        [];
+  }
 }
