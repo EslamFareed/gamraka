@@ -90,9 +90,9 @@ class HomeScreen extends StatelessWidget {
                       MaterialButton(
                         onPressed: () {
                           if (controller.text.isEmpty ||
-                              controller.text.length < 4) {
+                              controller.text.length < 5) {
                             context.showErrorSnack(
-                              "Please Enter Order Id to Track, min length is 4 chars",
+                              "Please Enter Order Id to Track, min length is 5 chars",
                             );
                           } else {
                             MyOrdersCubit.get(context).search(controller.text);
@@ -101,20 +101,27 @@ class HomeScreen extends StatelessWidget {
                                 "This id is wrong, please check again",
                               );
                             } else {
-                              context.goToPage(
-                                TrackOrderScreen(
-                                  createdAt:
+                              if (MyOrdersCubit.get(context).orders[0].status ==
+                                  "pending") {
+                                context.showErrorSnack(
+                                  "You can't track This order currently cause status is Pending",
+                                );
+                              } else {
+                                context.goToPage(
+                                  TrackOrderScreen(
+                                    createdAt:
+                                        MyOrdersCubit.get(
+                                          context,
+                                        ).orders[0].createdAt,
+                                    estimatedDeliveryDate: DateTime.parse(
                                       MyOrdersCubit.get(
                                         context,
-                                      ).orders[0].createdAt,
-                                  estimatedDeliveryDate: DateTime.parse(
-                                    MyOrdersCubit.get(
-                                      context,
-                                    ).orders[0].statusDesc,
+                                      ).orders[0].statusDesc,
+                                    ),
+                                    order: MyOrdersCubit.get(context).orders[0],
                                   ),
-                                  order: MyOrdersCubit.get(context).orders[0],
-                                ),
-                              );
+                                );
+                              }
                             }
                           }
                         },
