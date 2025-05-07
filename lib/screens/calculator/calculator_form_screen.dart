@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamraka/core/app_functions.dart';
+import 'package:gamraka/screens/calculator/calculator_summary_screen.dart';
 import 'package:gamraka/screens/calculator/cubit/order_cubit.dart';
 import 'package:gamraka/screens/home/models/category_model.dart';
 
 import '../../core/app_colors.dart';
 import 'models/country_model.dart';
-
 
 class CalculatorFormScreen extends StatelessWidget {
   CalculatorFormScreen({super.key, required this.cateogry});
@@ -208,7 +208,14 @@ class CalculatorFormScreen extends StatelessWidget {
                 SizedBox(height: context.screenHeight * .02),
 
                 BlocConsumer<OrderCubit, OrderState>(
-                  listener: (context, state) {},
+                  listener: (context, state) {
+                    if (state is SuccessCalculateState) {
+                      context.showSuccessSnack("Calculated Successfully");
+                      context.goToPage(CalculatorSummaryScreen());
+                    } else if (state is ErrorCalculateState) {
+                      context.showErrorSnack("Error, Please try again");
+                    }
+                  },
                   builder: (context, state) {
                     if (state is LoadingCalculateState) {
                       return Center(child: CircularProgressIndicator());
@@ -217,11 +224,11 @@ class CalculatorFormScreen extends StatelessWidget {
                       onPressed: () {
                         if (globalKey.currentState?.validate() ?? false) {
                           OrderCubit.get(context).calculate(
-                            itemName: itemNameController.text,
-                            itemPrice: num.parse(itemPriceController.text),
-                            itemDesc: itemDescController.text,
-                            weight: num.parse(weightController.text),
-                            category: cateogry,
+                            n: itemNameController.text,
+                            p: num.parse(itemPriceController.text),
+                            d: itemDescController.text,
+                            w: num.parse(weightController.text),
+                            c: cateogry,
                           );
                         }
                       },

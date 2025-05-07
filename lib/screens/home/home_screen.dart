@@ -4,16 +4,23 @@ import 'package:gamraka/core/app_functions.dart';
 import 'package:gamraka/core/cache_helper.dart';
 import 'package:gamraka/screens/home/cubit/home_cubit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:gamraka/screens/orders/cubit/my_orders_cubit.dart';
+import 'package:gamraka/screens/orders/track_order_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/app_colors.dart';
+import '../calculator/calculator_form_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  final controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     HomeCubit.get(context).getSliders();
+    MyOrdersCubit.get(context).getOrders();
+    controller.clear();
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         if (state is LoadingHomeState) {
@@ -74,13 +81,43 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: SearchBar(
+                          controller: controller,
                           backgroundColor: WidgetStatePropertyAll(Colors.white),
                           hintText: "Enter order number",
                           leading: Icon(Icons.search, color: Colors.grey),
                         ),
                       ),
                       MaterialButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (controller.text.isEmpty ||
+                              controller.text.length < 4) {
+                            context.showErrorSnack(
+                              "Please Enter Order Id to Track, min length is 4 chars",
+                            );
+                          } else {
+                            MyOrdersCubit.get(context).search(controller.text);
+                            if (MyOrdersCubit.get(context).orders.isEmpty) {
+                              context.showErrorSnack(
+                                "This id is wrong, please check again",
+                              );
+                            } else {
+                              context.goToPage(
+                                TrackOrderScreen(
+                                  createdAt:
+                                      MyOrdersCubit.get(
+                                        context,
+                                      ).orders[0].createdAt,
+                                  estimatedDeliveryDate: DateTime.parse(
+                                    MyOrdersCubit.get(
+                                      context,
+                                    ).orders[0].statusDesc,
+                                  ),
+                                  order: MyOrdersCubit.get(context).orders[0],
+                                ),
+                              );
+                            }
+                          }
+                        },
                         height: 50,
                         color: AppColors.primary,
                         shape: RoundedRectangleBorder(
@@ -174,27 +211,40 @@ class HomeScreen extends StatelessWidget {
                     crossAxisSpacing: 15,
                   ),
                   itemBuilder: (context, index) {
-                    return Card(
-                      color: Colors.grey.shade100,
-                      child: Column(
-                        spacing: 4,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.network(
-                            HomeCubit.get(context).allCategories[index].icon ??
-                                "",
-                            width: 50,
-                            height: 50,
+                    return InkWell(
+                      onTap: () {
+                        context.goToPage(
+                          CalculatorFormScreen(
+                            cateogry: HomeCubit.get(context).categories[index],
                           ),
-                          Text(
-                            HomeCubit.get(context).allCategories[index].name ??
-                                "",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                        );
+                      },
+                      child: Card(
+                        color: Colors.grey.shade100,
+                        child: Column(
+                          spacing: 4,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.network(
+                              HomeCubit.get(
+                                    context,
+                                  ).allCategories[index].icon ??
+                                  "",
+                              width: 50,
+                              height: 50,
                             ),
-                          ),
-                        ],
+                            Text(
+                              HomeCubit.get(
+                                    context,
+                                  ).allCategories[index].name ??
+                                  "",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },

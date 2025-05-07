@@ -7,6 +7,7 @@ import 'package:gamraka/screens/auth/login/cubit/login_cubit.dart';
 import 'package:gamraka/screens/auth/sign_up/cubit/sign_up_cubit.dart';
 import 'package:gamraka/screens/calculator/cubit/order_cubit.dart';
 import 'package:gamraka/screens/home/cubit/home_cubit.dart';
+import 'package:gamraka/screens/orders/cubit/my_orders_cubit.dart';
 import 'package:gamraka/screens/welcome/splash_screen.dart';
 
 import 'core/cache_helper.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AsksCubit()),
         BlocProvider(create: (context) => HomeCubit()),
         BlocProvider(create: (context) => OrderCubit()),
+        BlocProvider(create: (context) => MyOrdersCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

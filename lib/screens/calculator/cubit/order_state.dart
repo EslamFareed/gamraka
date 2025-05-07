@@ -17,3 +17,10 @@ class ErrorCountriesState extends OrderState{}
 
 class StartChooseCountryState extends OrderState {}
 class EndChooseCountryState extends OrderState {}
+
+
+
+
+class LoadingMakeOrderState extends OrderState{}
+class SuccessMakeOrderState extends OrderState{}
+class ErrorMakeOrderState extends OrderState{}
