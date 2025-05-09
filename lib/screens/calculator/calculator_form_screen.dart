@@ -83,8 +83,17 @@ class CalculatorFormScreen extends StatelessWidget {
                           items: [
                             DropdownMenuItem(
                               value: OrderCubit.get(context).egypt,
-                              child: Text(
-                                "${OrderCubit.get(context).egypt!.name} - ${OrderCubit.get(context).egypt!.address}",
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    "assets/icons/egypt_flag.png",
+                                    width: 75,
+                                    height: 40,
+                                  ),
+                                  Text(
+                                    "${OrderCubit.get(context).egypt!.name} - ${OrderCubit.get(context).egypt!.address}",
+                                  ),
+                                ],
                               ),
                             ),
                           ],
