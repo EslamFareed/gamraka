@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget {
     });
 
     return Scaffold(
-      body: Center(child: Image.asset('assets/gifs/startup2.gif')),
+      body: Center(child: Image.asset('assets/gifs/startup.gif')),
     );
   }
 }
