@@ -6,6 +6,8 @@ import 'package:gamraka/screens/navbar/cubit/nav_bar_cubit.dart';
 import 'package:gamraka/screens/orders/orders_screen.dart';
 import 'package:gamraka/screens/profile/profile_screen.dart';
 
+import '../../core/app_colors.dart';
+
 class NavbarScreen extends StatelessWidget {
   NavbarScreen({super.key});
 
@@ -31,7 +33,7 @@ class NavbarScreen extends StatelessWidget {
                 NavBarCubit.get(context).changeScreen(value);
               },
               unselectedItemColor: Colors.grey.shade400,
-              selectedItemColor: Colors.black,
+              selectedItemColor: AppColors.primary,
               backgroundColor: Colors.white,
               items: [
                 BottomNavigationBarItem(
@@ -41,7 +43,7 @@ class NavbarScreen extends StatelessWidget {
                   ),
                   activeIcon: Image.asset(
                     "assets/icons/home_nav.png",
-                    color: Colors.black,
+                    color: AppColors.primary,
                   ),
                   label: "Home",
                 ),
@@ -52,7 +54,7 @@ class NavbarScreen extends StatelessWidget {
                   ),
                   activeIcon: Image.asset(
                     "assets/icons/calculator_nav.png",
-                    color: Colors.black,
+                    color: AppColors.primary,
                   ),
                   label: "Calculator",
                 ),
@@ -63,7 +65,7 @@ class NavbarScreen extends StatelessWidget {
                   ),
                   activeIcon: Image.asset(
                     "assets/icons/orrders_nav.png",
-                    color: Colors.black,
+                    color: AppColors.primary,
                   ),
                   label: "Orders",
                 ),
@@ -74,7 +76,7 @@ class NavbarScreen extends StatelessWidget {
                   ),
                   activeIcon: Image.asset(
                     "assets/icons/profile_nav.png",
-                    color: Colors.black,
+                    color: AppColors.primary,
                   ),
                   label: "Profile",
                 ),

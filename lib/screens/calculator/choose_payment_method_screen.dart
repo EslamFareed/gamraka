@@ -7,17 +7,27 @@ import 'package:gamraka/screens/calculator/cubit/order_cubit.dart';
 import 'package:gamraka/screens/calculator/order_success_screen.dart';
 import 'package:gamraka/screens/payment_methods/models/payment_model.dart';
 
-class ChoosePaymentMethodScreen extends StatelessWidget {
+import '../payment_methods/add_payment_method_screen.dart';
+
+class ChoosePaymentMethodScreen extends StatefulWidget {
   const ChoosePaymentMethodScreen({super.key, required this.pickUpDate});
 
   final DateTime pickUpDate;
 
   @override
+  State<ChoosePaymentMethodScreen> createState() =>
+      _ChoosePaymentMethodScreenState();
+}
+
+class _ChoosePaymentMethodScreenState extends State<ChoosePaymentMethodScreen> {
+  @override
   Widget build(BuildContext context) {
     var paymentMethods = CacheHelper.getPaymentMethods();
 
     return Scaffold(
-      appBar: AppBar(title: Text("Choose Payment Method")),
+      appBar: AppBar(
+        title: Text("Choose Payment Method and\nVerification Image"),
+      ),
       body: BlocConsumer<OrderCubit, OrderState>(
         listener: (context, state) {
           if (state is SuccessMakeOrderState) {
@@ -76,6 +86,39 @@ class ChoosePaymentMethodScreen extends StatelessWidget {
                     itemCount: paymentMethods.length,
                   ),
 
+                  InkWell(
+                    onTap: () async {
+                      await context.goToPage(AddPaymentMethodScreen());
+                      paymentMethods = CacheHelper.getPaymentMethods();
+                      setState(() {});
+                    },
+                    child: Container(
+                      width: context.width,
+                      padding: EdgeInsets.all(15),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        spacing: 10,
+                        children: [
+                          Icon(Icons.add, color: AppColors.primary),
+                          Text("Add New Card"),
+                          Spacer(),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.grey,
+                            size: 15,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
                   Card(
                     child: RadioListTile<PaymentModel?>(
                       controlAffinity: ListTileControlAffinity.trailing,
@@ -111,7 +154,7 @@ class ChoosePaymentMethodScreen extends StatelessWidget {
                       ? Center(child: CircularProgressIndicator())
                       : MaterialButton(
                         onPressed: () {
-                          OrderCubit.get(context).makeOrder(pickUpDate);
+                          OrderCubit.get(context).makeOrder(widget.pickUpDate);
                         },
                         minWidth: context.screenWidth,
                         height: 50,

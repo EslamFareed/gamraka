@@ -141,10 +141,7 @@ class CalculatorSummaryScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Shipping Cost",
-                        style: TextStyle(color: Colors.black),
-                      ),
+                      Text("Total", style: TextStyle(color: Colors.black)),
                       Text(
                         "${OrderCubit.get(context).total} LE",
                         style: TextStyle(color: Colors.black),
@@ -187,7 +184,9 @@ class CalculatorSummaryScreen extends StatelessWidget {
                         initialDate: DateTime.now(),
                       );
                       if (pickUpDate != null) {
-                        context.goToPage(ChoosePaymentMethodScreen(pickUpDate:pickUpDate));
+                        context.goToPage(
+                          ChoosePaymentMethodScreen(pickUpDate: pickUpDate),
+                        );
                       } else {
                         context.showErrorSnack("Please Select Pickup Date");
                       }

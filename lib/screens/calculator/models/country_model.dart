@@ -10,4 +10,9 @@ class CountryModel {
     name = e.data()["name"];
     address = e.data()["address"];
   }
+
+  CountryModel.fromDocFirebase(DocumentSnapshot<Map<String, dynamic>> e) {
+    name = e.data()!["name"];
+    address = e.data()!["address"];
+  }
 }

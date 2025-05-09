@@ -4,12 +4,14 @@ import 'package:gamraka/core/app_functions.dart';
 import 'package:gamraka/core/cache_helper.dart';
 import 'package:gamraka/screens/home/cubit/home_cubit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:gamraka/screens/navbar/cubit/nav_bar_cubit.dart';
 import 'package:gamraka/screens/orders/cubit/my_orders_cubit.dart';
 import 'package:gamraka/screens/orders/track_order_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/app_colors.dart';
 import '../calculator/calculator_form_screen.dart';
+import '../orders/models/order_model.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -27,11 +29,18 @@ class HomeScreen extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         }
         return Scaffold(
+          appBar: AppBar(
+            backgroundColor: AppColors.primary,
+            title: Text("Home", style: TextStyle(color: Colors.white)),
+
+            actions: [
+              Image.asset("assets/icons/icon.png", color: Colors.white),
+            ],
+          ),
           body: SingleChildScrollView(
             child: Column(
               children: [
                 //! Welcome
-                SizedBox(height: context.height * .05),
                 Row(
                   children: [
                     Container(
@@ -256,6 +265,133 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                   itemCount: HomeCubit.get(context).allCategories.length,
+                ),
+                SizedBox(height: context.height * .02),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Latest Orders",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      InkWell(
+                        child: Text("See more"),
+                        onTap: () {
+                          NavBarCubit.get(context).changeScreen(2);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+
+                BlocBuilder<MyOrdersCubit, MyOrdersState>(
+                  builder: (context, state) {
+                    if (state is LoadingGetOrdersState) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    List<OrderModel> orders = [];
+                    if (MyOrdersCubit.get(context).orders.length > 2) {
+                      orders = MyOrdersCubit.get(context).orders.sublist(0, 2);
+                    } else {
+                      orders = MyOrdersCubit.get(context).orders;
+                    }
+
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final item = orders[index];
+                        return Card(
+                          color: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              spacing: 16,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      item.status,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            item.status == "cancelled"
+                                                ? Colors.red
+                                                : Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    Text(
+                                      "#${item.id.substring(0, 6)}",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                Row(
+                                  spacing: 10,
+                                  children: [
+                                    Icon(
+                                      Icons.pin_drop,
+                                      color: AppColors.primary,
+                                    ),
+                                    Text(
+                                      item.from,
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  spacing: 10,
+                                  children: [
+                                    Icon(
+                                      Icons.location_history,
+                                      color: AppColors.primary,
+                                    ),
+                                    Text(
+                                      item.to,
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  spacing: 10,
+                                  children: [
+                                    Text(
+                                      item.itemName,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+
+                                    Text(
+                                      "${item.itemPrice} EGP",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      itemCount: orders.length,
+                    );
+                  },
                 ),
               ],
             ),

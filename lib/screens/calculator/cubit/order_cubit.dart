@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gamraka/core/cache_helper.dart';
 import 'package:gamraka/screens/calculator/models/route_model.dart';
 import 'package:gamraka/screens/payment_methods/models/payment_model.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
 import '../../home/models/category_model.dart';
@@ -17,14 +21,24 @@ class OrderCubit extends Cubit<OrderState> {
   static OrderCubit get(context) => BlocProvider.of(context);
   final firestore = FirebaseFirestore.instance;
   List<CountryModel> countries = [];
+  CountryModel? egypt;
 
   void getCountries() async {
     emit(LoadingCountriesState());
 
     try {
-      var data = await firestore.collection("countries").get();
+      var data =
+          await firestore
+              .collection("countries")
+              .where("name", isNotEqualTo: "Egypt")
+              .get();
 
       countries = data.docs.map((e) => CountryModel.fromFirebase(e)).toList();
+
+      var egyptData =
+          await firestore.collection("countries").doc("egypt").get();
+
+      egypt = CountryModel.fromDocFirebase(egyptData);
       emit(SuccessCountriesState());
     } catch (e) {
       emit(ErrorCountriesState());
@@ -97,40 +111,54 @@ class OrderCubit extends Cubit<OrderState> {
     emit(EndChooseCountryState());
   }
 
+  FirebaseStorage storage = FirebaseStorage.instance;
+
   void makeOrder(DateTime date) async {
     emit(LoadingMakeOrderState());
     try {
-      await firestore.collection("orders").add({
-        "user": {
-          "uid": CacheHelper.getId(),
-          "idNumber": CacheHelper.getIdNumber(),
-          "image": CacheHelper.getImage(),
-          "name": CacheHelper.getName(),
-          "phone": CacheHelper.getPhone(),
-        },
+      var image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        File file = File(image.path);
 
-        "from": "${from!.name} - ${from!.address}",
-        "to": "${to!.name} - ${to!.address}",
-        "itemName": itemName,
-        "itemDesc": itemDesc,
-        "itemPrice": itemPrice,
-        "weight": weight,
-        "category": {
-          "name": category!.name,
-          "fees": category!.fees,
-          "icon": category!.icon,
-        },
-        "createdAt": DateTime.now().toString(),
-        "pickupDate": date.toString(),
-        "taxes": (itemPrice! * .14) + ((category!.fees! / 100) * itemPrice!),
-        "shippingCost": (route!.cost!) + (weight! * 5),
-        "total": total,
-        "status": "pending",
-        "statusDesc":"",
-        "methodType": method == null ? "cash" : method!.cardNumber,
-      });
+        final storageRef = storage.ref();
+        final imagesRef = storageRef.child("images/${image.name}");
+        await imagesRef.putFile(file);
+        String downloadURL = await imagesRef.getDownloadURL();
 
-      emit(SuccessMakeOrderState());
+        await firestore.collection("orders").add({
+          "user": {
+            "uid": CacheHelper.getId(),
+            "idNumber": CacheHelper.getIdNumber(),
+            "image": CacheHelper.getImage(),
+            "name": CacheHelper.getName(),
+            "phone": CacheHelper.getPhone(),
+          },
+          "from": "${from!.name} - ${from!.address}",
+          "to": "${to!.name} - ${to!.address}",
+          "itemName": itemName,
+          "itemDesc": itemDesc,
+          "itemPrice": itemPrice,
+          "weight": weight,
+          "category": {
+            "name": category!.name,
+            "fees": category!.fees,
+            "icon": category!.icon,
+          },
+          "createdAt": DateTime.now().toString(),
+          "pickupDate": date.toString(),
+          "taxes": (itemPrice! * .14) + ((category!.fees! / 100) * itemPrice!),
+          "shippingCost": (route!.cost!) + (weight! * 5),
+          "total": total,
+          "status": "pending",
+          "statusDesc": "",
+          "methodType": method == null ? "cash" : method!.cardNumber,
+          "verificationImage": downloadURL,
+        });
+
+        emit(SuccessMakeOrderState());
+      } else {
+        emit(ErrorMakeOrderState());
+      }
     } catch (e) {
       emit(ErrorMakeOrderState());
     }

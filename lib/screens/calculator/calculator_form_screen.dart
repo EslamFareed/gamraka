@@ -35,34 +35,36 @@ class CalculatorFormScreen extends StatelessWidget {
                 SizedBox(height: 5),
                 BlocBuilder<OrderCubit, OrderState>(
                   builder: (context, state) {
-                    return DropdownButtonFormField<CountryModel>(
-                      onChanged: (value) {
-                        OrderCubit.get(context).selectFrom(value);
-                      },
-                      items:
-                          OrderCubit.get(context).countries.map((e) {
-                            return DropdownMenuItem(
-                              value: e,
-                              child: Text("${e.name} - ${e.address}"),
-                            );
-                          }).toList(),
-                      decoration: InputDecoration(
-                        hintText: "",
-                        filled: true,
-                        fillColor: Colors.grey.shade200,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null) {
-                          return "From Country is required";
-                        }
+                    return state is LoadingCountriesState
+                        ? Center(child: CircularProgressIndicator())
+                        : DropdownButtonFormField<CountryModel>(
+                          onChanged: (value) {
+                            OrderCubit.get(context).selectFrom(value);
+                          },
+                          items:
+                              OrderCubit.get(context).countries.map((e) {
+                                return DropdownMenuItem(
+                                  value: e,
+                                  child: Text("${e.name} - ${e.address}"),
+                                );
+                              }).toList(),
+                          decoration: InputDecoration(
+                            hintText: "",
+                            filled: true,
+                            fillColor: Colors.grey.shade200,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null) {
+                              return "From Country is required";
+                            }
 
-                        return null;
-                      },
-                    );
+                            return null;
+                          },
+                        );
                   },
                 ),
                 SizedBox(height: context.screenHeight * .02),
@@ -72,37 +74,41 @@ class CalculatorFormScreen extends StatelessWidget {
                 SizedBox(height: 5),
                 BlocBuilder<OrderCubit, OrderState>(
                   builder: (context, state) {
-                    return DropdownButtonFormField<CountryModel>(
-                      onChanged: (value) {
-                        OrderCubit.get(context).selectTo(value);
-                      },
-                      items:
-                          OrderCubit.get(context).countries.map((e) {
-                            return DropdownMenuItem(
-                              value: e,
-                              child: Text("${e.name} - ${e.address}"),
-                            );
-                          }).toList(),
-                      decoration: InputDecoration(
-                        hintText: "",
-                        filled: true,
-                        fillColor: Colors.grey.shade200,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null) {
-                          return "To Country is required";
-                        }
-                        if (value == OrderCubit.get(context).from) {
-                          return "From and To Country can't be same";
-                        }
+                    return state is LoadingCountriesState
+                        ? Center(child: CircularProgressIndicator())
+                        : DropdownButtonFormField<CountryModel>(
+                          onChanged: (value) {
+                            OrderCubit.get(context).selectTo(value);
+                          },
+                          items: [
+                            DropdownMenuItem(
+                              value: OrderCubit.get(context).egypt,
+                              child: Text(
+                                "${OrderCubit.get(context).egypt!.name} - ${OrderCubit.get(context).egypt!.address}",
+                              ),
+                            ),
+                          ],
+                          decoration: InputDecoration(
+                            hintText: "",
+                            enabled: false,
+                            filled: true,
+                            fillColor: Colors.grey.shade200,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null) {
+                              return "To Country is required";
+                            }
+                            if (value == OrderCubit.get(context).from) {
+                              return "From and To Country can't be same";
+                            }
 
-                        return null;
-                      },
-                    );
+                            return null;
+                          },
+                        );
                   },
                 ),
                 SizedBox(height: context.screenHeight * .02),

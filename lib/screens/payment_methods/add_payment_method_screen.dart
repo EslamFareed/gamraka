@@ -40,7 +40,6 @@ class _AddPaymentMethodScreenState extends State<AddPaymentMethodScreen> {
         ),
       );
       Navigator.pop(context);
-      Navigator.pop(context);
     }
   }
 

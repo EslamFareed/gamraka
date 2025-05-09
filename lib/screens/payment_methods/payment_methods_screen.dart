@@ -48,7 +48,19 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                       ),
                       Spacer(),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDeletePayymentMethodDialog(
+                            context: context,
+                            onDelete: () async {
+                              await CacheHelper.removePaymentMethod(
+                                methods[index],
+                              );
+                              methods = CacheHelper.getPaymentMethods();
+
+                              setState(() {});
+                            },
+                          );
+                        },
                         icon: Icon(Icons.cancel, color: AppColors.primary),
                       ),
                     ],
@@ -83,9 +95,44 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                 ),
               ),
             ),
+         
+         
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> showDeletePayymentMethodDialog({
+    required BuildContext context,
+    required VoidCallback onDelete,
+  }) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text('Confirm Delete'),
+          content: const Text(
+            'Are you sure you want to delete this Method? This action cannot be undone.',
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(); // dismiss
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: const Text('Delete'),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(); // dismiss
+                onDelete(); // execute deletion
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -18,6 +18,7 @@ class OrderModel {
   final String status;
   final String statusDesc;
   final String id;
+  final String verificationImage;
 
   OrderModel({
     required this.shippingCost,
@@ -37,6 +38,7 @@ class OrderModel {
     required this.status,
     required this.statusDesc,
     required this.id,
+    required this.verificationImage,
   });
 
   factory OrderModel.fromJson(
@@ -60,6 +62,7 @@ class OrderModel {
       user: User.fromJson(json.data()['user']),
       status: json.data()['status'],
       statusDesc: json.data()['statusDesc'],
+      verificationImage: json.data()['verificationImage'],
     );
   }
 }

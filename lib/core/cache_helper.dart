@@ -39,7 +39,13 @@ class CacheHelper {
 
   static Future<void> removePaymentMethod(PaymentModel method) async {
     List<PaymentModel> methods = getPaymentMethods();
-    methods.remove(method);
+    PaymentModel? foundMethod;
+    for (var element in methods) {
+      if (element.cardNumber == method.cardNumber) {
+        foundMethod = element;
+      }
+    }
+    methods.remove(foundMethod);
     await savePaymentMethods(methods);
   }
 
