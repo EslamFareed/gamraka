@@ -34,7 +34,9 @@ class _ChoosePaymentMethodScreenState extends State<ChoosePaymentMethodScreen> {
             context.showSuccessSnack("Order Made Successfully");
             context.goToPage(OrderSuccessScreen());
           } else if (state is ErrorMakeOrderState) {
-            context.showSuccessSnack("Error, please try again later");
+            context.showErrorSnack(
+              "Error, please make sure you choose image and payment method",
+            );
           }
         },
         builder: (context, state) {

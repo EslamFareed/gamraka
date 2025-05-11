@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamraka/core/app_colors.dart';
 import 'package:gamraka/core/app_functions.dart';
 import 'package:gamraka/core/cache_helper.dart';
 import 'package:gamraka/screens/navbar/navbar_screen.dart';
@@ -18,7 +19,8 @@ class SplashScreen extends StatelessWidget {
     });
 
     return Scaffold(
-      body: Center(child: Image.asset('assets/gifs/startup.gif')),
+      backgroundColor: AppColors.background,
+      body: Center(child: Image.asset('assets/gifs/splash.gif')),
     );
   }
 }

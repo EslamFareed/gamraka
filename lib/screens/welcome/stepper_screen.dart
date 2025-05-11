@@ -93,15 +93,16 @@ class _StepperScreenState extends State<StepperScreen> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              AppColors.primary.withValues(alpha: .2),
-              AppColors.primary,
-              const Color.fromARGB(255, 42, 59, 57),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
+          color: AppColors.background,
+          // gradient: LinearGradient(
+          //   colors: [
+          //     // AppColors.primary.withValues(alpha: .2),
+          //     // AppColors.primary,
+          //     // const Color.fromARGB(255, 42, 59, 57),
+          //   ],
+          //   begin: Alignment.topCenter,
+          //   end: Alignment.bottomCenter,
+          // ),
         ),
         child: SafeArea(
           child: Column(

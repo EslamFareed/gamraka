@@ -8,19 +8,34 @@ import 'package:gamraka/screens/home/models/category_model.dart';
 import '../../core/app_colors.dart';
 import 'models/country_model.dart';
 
-class CalculatorFormScreen extends StatelessWidget {
+class CalculatorFormScreen extends StatefulWidget {
   CalculatorFormScreen({super.key, required this.cateogry});
   final CategoryModel cateogry;
 
+  @override
+  State<CalculatorFormScreen> createState() => _CalculatorFormScreenState();
+}
+
+class _CalculatorFormScreenState extends State<CalculatorFormScreen> {
   final itemNameController = TextEditingController();
+
   final itemDescController = TextEditingController();
+
   final itemPriceController = TextEditingController();
+
   final weightController = TextEditingController();
+
   final globalKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     OrderCubit.get(context).getCountries();
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Calculate Shipping")),
       body: SingleChildScrollView(
@@ -243,7 +258,7 @@ class CalculatorFormScreen extends StatelessWidget {
                             p: num.parse(itemPriceController.text),
                             d: itemDescController.text,
                             w: num.parse(weightController.text),
-                            c: cateogry,
+                            c: widget.cateogry,
                           );
                         }
                       },

@@ -26,7 +26,7 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: context.screenHeight * .05),
-                Image.asset("assets/icons/icon.png", height: 200, width: 200),
+                Image.asset("assets/icons/icon.png", height: 300, width: 300),
 
                 //! ------------------- Phone ------------------!
                 AppTextField(
